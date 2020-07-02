@@ -1,6 +1,6 @@
 <template>
   <div>Labels.vue
-    <Nve />
+    <Nav />
   </div>
 </template>
 

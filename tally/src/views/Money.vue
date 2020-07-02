@@ -1,6 +1,6 @@
 <template>
   <div>Money.vue
-    <Nve />
+    <Nav />
   </div>
 </template>
 
