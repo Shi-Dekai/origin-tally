@@ -2,21 +2,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const  path = require('path');
 
+const base = require('./webpack.config.base')
+
 module.exports = {
-    mode: 'development',
-    devtool: 'inline-source-map',
-    devServer: {
-        contentBase: './dost',
-    },
-    entry: './src/index.js',
-    output: {
-        filename: 'main.[contenthash].js'
-    },
+    ...base,
+    mode: 'production',
     plugins: [
-        new HtmlWebpackPlugin({
-            title: '方方',
-            template: "src/assets/index.html"
-        }),
+        ...base.plugins,
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
             chunkFilename: '[id].css',
@@ -24,6 +16,7 @@ module.exports = {
     ],
     module: {
         rules: [
+            ...base.module.rules,
             {
                 test: /\.css$/i,
                 use: [
@@ -35,7 +28,6 @@ module.exports = {
                     },
                     'css-loader',
                 ],
-                // use: ['style-loader', 'css-loader'],
             },
         ],
     },
