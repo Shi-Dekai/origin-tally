@@ -10,6 +10,13 @@
     padding: 0;
     margin: 0;
   }
+  body{
+    line-height: 1.5;
+  }
+  a{
+    text-decoration: none;
+    color: inherit;
+  }
 
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
