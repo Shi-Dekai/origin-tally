@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-wrapper">
+  <div class="layout-wrapper">
     <Layout>
       Labels.vue
     </Layout>
