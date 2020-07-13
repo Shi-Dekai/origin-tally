@@ -46,6 +46,7 @@
 
 <style lang="scss" scoped>
   .tags {
+    background: white;
     font-size: 14px;
     flex-grow: 1;
     display: flex;
