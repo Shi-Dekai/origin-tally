@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import clone from '@/components/lib/clone';
-import createId from '@/components/lib/createId';
+import clone from '@/lib/clone';
+import createId from '@/lib/createId';
 
 Vue.use(Vuex);
 
@@ -36,11 +36,13 @@ const store = new Vuex.Store({
       const names = state.tagList.map(item => item.name);
       if (names.indexOf(name) >= 0) {
         window.alert('标签名重复了');
+      } else {
+        const id = createId().toString();
+        state.tagList.push({id, name: name});
+        store.commit('saveTags');
+        return 'success';
       }
-      const id = createId().toString();
-      state.tagList.push({id, name: name});
-      store.commit('saveTags');
-      return 'success';
+
     },
     // updateTag(state, id: string, name: string) {
     //   const idList = state.tagList.map(item => item.id);
