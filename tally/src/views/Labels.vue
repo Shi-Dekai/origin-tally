@@ -27,6 +27,10 @@
     get tags() {
       return this.$store.state.tagList;
     }
+
+    created() {
+      this.$store.commit('fetchTags');
+    }
   };
 </script>
 
