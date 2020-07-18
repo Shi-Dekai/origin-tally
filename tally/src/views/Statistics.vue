@@ -20,7 +20,7 @@
   import recordTypeList from '@/constant/recordTypeList';
 
   @Component({
-    components: {Tabs,},
+    components: {Tabs}
   })
 
   export default class Statistics extends Vue {
