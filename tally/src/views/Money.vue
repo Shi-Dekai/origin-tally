@@ -21,7 +21,6 @@
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constant/recordTypeList';
-  // import store from '@/store/index';
 
   @Component({components: {Tabs, FormItem, Tags, NumberPad}})
   export default class Money extends Vue {
