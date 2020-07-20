@@ -25,7 +25,7 @@
   import {Component} from 'vue-property-decorator';
 
   @Component
-  export default class ggg extends Vue {
+  export default class NumberPad extends Vue {
     output: string = '0';
 
     inputContent(event: MouseEvent) {
@@ -57,9 +57,9 @@
     }
 
     ok() {
-      this.$emit('update:value', this.output)
-      this.$emit('submit', this.output)
-      this.output = '0'
+      this.$emit('update:value', this.output);
+      this.$emit('submit', this.output);
+      this.output = '0';
     }
   }
 </script>

@@ -56,7 +56,8 @@
     display: flex;
     flex-direction: column-reverse;
   }
-
+</style>
+<style lang="scss" scoped>
   .notes {
     padding: 12px 0;
   }
