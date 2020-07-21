@@ -51,14 +51,12 @@
     }
   }
 </script>
-<style lang="scss">
-  .layout-content {
-    display: flex;
-    flex-direction: column-reverse;
-  }
-</style>
 <style lang="scss" scoped>
   .notes {
     padding: 12px 0;
+  }
+  ::v-deep .layout-content {
+    display: flex;
+    flex-direction: column-reverse;
   }
 </style>
