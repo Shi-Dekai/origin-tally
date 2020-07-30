@@ -1,10 +1,16 @@
 <template>
-  <ul class="tabs" :class="{[classPrefix+'-tabs']:classPrefix}">
-    <li v-for="item in dataSource" :key="item.value" class="tabs-item"
-        :class="liClass(item)"
-        @click="select(item)">{{item.text}}
-    </li>
-  </ul>
+  <div class="tabsContainer">
+    <ul class="tabs" :class="{[classPrefix+'-tabs']:classPrefix}">
+      <li v-for="item in dataSource" :key="item.value" class="tabs-item"
+          :class="liClass(item)"
+          @click="select(item)"
+      >{{item.text}}
+      </li>
+    </ul>
+    <span class="cancel" @click="cancel">取消</span>
+    <span class="compile" @click="compile">{{$store.state.removeSwitch}}</span>
+  </div>
+
 </template>
 
 <script lang="ts">
@@ -14,7 +20,6 @@
   type DataSourceItem = {
     text: string, value: string
   }
-
   @Component({})
   export default class Tabs extends Vue {
     @Prop({required: true, type: Array})
@@ -23,6 +28,16 @@
     readonly value!: string;
     @Prop()
     classPrefix?: string;
+
+    cancel() {
+      this.$store.commit('cancelShowInput');
+      this.$store.commit('cancelShowNumberPad');
+      this.$store.commit('cancelShowCompile');
+    }
+
+    compile() {
+      this.$store.commit('removeSwitch');
+    }
 
     liClass(item: DataSourceItem) {
       return {
@@ -33,20 +48,43 @@
 
     select(item: DataSourceItem) {
       this.$emit('update:value', item.value);
+      this.$store.commit('setType', item.value);
     }
+
   }
 </script>
 
 <style lang="scss" scoped>
+  .tabsContainer {
+    background: #F9DC61;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .compile {
+    font-size: 13px;
+    position: absolute;
+    right: 20px;
+  }
+
+  .cancel {
+    font-size: 13px;
+    position: absolute;
+    left: 20px;
+  }
+
   .tabs {
-    background: #c4c4c4;
+    background: #F9DC61;
     display: flex;
     text-align: center;
-    font-size: 24px;
+    font-size: 14px;
+    width: 15vh;
 
     &-item {
       flex-grow: 1;
-      height: 64px;
+      height: 50px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -58,7 +96,7 @@
         position: absolute;
         left: 0;
         bottom: 0;
-        height: 4px;
+        height: 2px;
         width: 100%;
         background: #333;
       }

@@ -35,15 +35,19 @@
     align-items: center;
 
     > .name {
-      padding-right: 16px;
+      padding-right: 10px;
     }
 
     > input {
-      height: 40px;
-      padding: 20px 0;
+      height: 45px;
+      line-height: 45px;
       flex-grow: 1;
       background: transparent;
       border: none;
+      width: 55vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 </style>

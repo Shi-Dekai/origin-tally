@@ -1,6 +1,14 @@
 <template>
-  <div class="numberPad">
-    <div class="output">{{output}}</div>
+  <div class="numberPad" :class="{show:this.$store.state.isShowNumberPad}">
+    <div class="output">
+      <div class="notes">
+        <FormItem field-name="备注:"
+                  placeholder="点击写备注"
+                  :value.sync="record.notes">
+        </FormItem>
+      </div>
+      {{output}}
+    </div>
     <div class="buttons">
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
@@ -23,16 +31,23 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
+  import FormItem from '@/components/Money/FormItem.vue';
 
-  @Component
+  @Component({
+    components: {FormItem}
+  })
   export default class NumberPad extends Vue {
     @Prop(Number) readonly value!: number;
     output: string = '0';
 
+    record: RecordItem = {
+      tags: [], notes: '', type: '-', amount: 0
+    };
+
     inputContent(event: MouseEvent) {
       const Button = (event.target as HTMLButtonElement);
       const input = Button.textContent!;
-      if (this.output.length === 16) {return;}
+      if (this.output.length === 8) {return;}
       if (this.output === '0') {
         if ('0123456789'.indexOf(input) >= 0) {
           this.output = input;
@@ -68,7 +83,17 @@
 <style lang="scss" scoped>
   @import "~@/assets/style/helper.scss";
 
+  .numberPad.show {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    background: rgb(243, 243, 243);
+  }
+
   .numberPad {
+    display: none;
+
     > .output {
       @extend %clearFix;
       @extend %innerShader;
@@ -76,56 +101,35 @@
       font-family: Consolas, monospace;
       padding: 9px 16px;
       text-align: right;
-      height: 72px;
+      height: 45px;
+      line-height: 27px;
+      position: relative;
+
+      >.notes{
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
     }
 
     > .buttons {
       @extend %clearFix;
+      font-size: 18px;
 
       > button {
         float: left;
         width: 25%;
-        height: 64px;
+        height: 57px;
         background: transparent;
-        border: none;
+        border: 1px solid rgb(201, 201, 201);
 
         &.ok {
           float: right;
-          height: 64*2px;
+          height: 57*2px;
         }
 
         &.zero {
           width: 25*2%;
-        }
-
-        $bg: #f2f2f2;
-
-        &:nth-child(1) {
-          background: $bg;
-        }
-
-        &:nth-child(2), &:nth-child(5) {
-          background: darken($bg, 4%);
-        }
-
-        &:nth-child(3), &:nth-child(6), &:nth-child(9) {
-          background: darken($bg, 4*2%);
-        }
-
-        &:nth-child(4), &:nth-child(7), &:nth-child(10) {
-          background: darken($bg, 4*3%);
-        }
-
-        &:nth-child(8), &:nth-child(11), &:nth-child(13) {
-          background: darken($bg, 4*4%);
-        }
-
-        &:nth-child(14) {
-          background: darken($bg, 4*5%);
-        }
-
-        &:nth-child(12) {
-          background: darken($bg, 4*6%);
         }
       }
     }

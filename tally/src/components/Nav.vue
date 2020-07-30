@@ -1,5 +1,9 @@
 <template>
   <nav>
+    <router-link to="/statistics" class="item" active-class="selected">
+      <Icon name="statistics"/>
+      明细
+    </router-link>
     <router-link to="/money" class="item" active-class="selected">
       <Icon name="money"/>
       记账
@@ -8,21 +12,21 @@
       <Icon name="label"/>
       标签
     </router-link>
-    <router-link to="/statistics" class="item" active-class="selected">
-      <Icon name="statistics"/>
-      统计
-    </router-link>
+    <Add />
   </nav>
 </template>
 
 <script lang="ts">
+  import Add from '@/components/Add.vue';
   export default {
-    name: 'Nve'
+    name: 'Nve',
+    components: {Add}
   };
 </script>
 
 <style lang="scss" scoped>
   @import "~@/assets/style/helper.scss";
+
   nav {
     @extend %outerShadow;
     display: flex;
@@ -42,7 +46,8 @@
       width: 32px;
       height: 32px;
     }
-    > .item.selected{
+
+    > .item.selected {
       color: $color-highlight;
     }
   }

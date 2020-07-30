@@ -20,7 +20,6 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
-  import intervalList from '@/constant/intervalList';
   import recordTypeList from '@/constant/recordTypeList';
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
@@ -82,8 +81,6 @@
     }
 
     type = '-';
-    interval = 'day';
-    intervalList = intervalList;
     recordTypeList = recordTypeList;
   };
 </script>

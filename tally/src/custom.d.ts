@@ -1,7 +1,17 @@
 type RootState = {
+  removeSwitch:string,
+  labelList:Label[],
+  type:string,
   recordList: RecordItem[],
   tagList: Tag[],
-  currentTag?: Tag
+  currentTag?: Tag,
+  isShowInput: boolean,
+  isShowNumberPad: boolean,
+  isShowCompile: boolean
+}
+
+type Label = {
+  type:string,tag:string,name:string
 }
 
 type RecordItem = {
@@ -23,8 +33,8 @@ type TagListModel = {
   remove: (id: string) => boolean
   save: () => void
 }
-
-interface Window {
-
+type Labels = {
+  icon: string,
+  type: string
 }
 

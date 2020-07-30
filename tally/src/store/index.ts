@@ -2,16 +2,119 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import clone from '@/lib/clone';
 import createId from '@/lib/createId';
+import Label from '@/components/Label';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
+    removeSwitch: '编辑',
+    labelList: Label,
+    type: '-',
+    isShowCompile: false,
+    isShowNumberPad: false,
+    isShowInput: false,
     recordList: [],
     tagList: [],
     currentTag: undefined
   } as RootState,
+
+  getters: {
+    typeText: state => {
+      return state.type === '-' ? '支出' : '收入';
+    }
+  },
+
   mutations: {
+
+    accomplish(state, {type, input, select}) {
+      store.commit('joinLabelList', {type, input, select});
+      store.commit('setLabelList');
+      store.commit('showInput');
+      store.commit('cancelShowCompile');
+    },
+
+    remove(state, name: string) {
+      let index = 0;
+      for (let i = 0; i < state.labelList.length; i++) {
+        if (state.labelList[i].name === name) {
+          index = i;
+          break;
+        }
+      }
+      state.labelList.splice(index, 1);
+      store.commit('setLabelList');
+    },
+
+    joinLabelList(state, {type, input, select}) {
+      state.labelList.push({type: type, tag: select, name: input});
+    },
+
+    fetchLabelList(state) {
+      state.labelList = JSON.parse(window.localStorage.getItem('labelList') || '');
+    },
+
+    setLabelList(state) {
+      window.localStorage.setItem('labelList', JSON.stringify(state.labelList));
+    },
+
+    setType(state, type) {
+      state.type = type;
+    },
+
+    removeSwitch(state) {
+      if (state.removeSwitch === '编辑') {
+        state.removeSwitch = '完成';
+      } else {
+        state.removeSwitch = '编辑';
+      }
+      store.commit('isShowCompile');
+    },
+
+    isShowCompile(state) {
+      if (state.isShowCompile === false) {
+        state.isShowCompile = true;
+      } else {
+        state.isShowCompile = false;
+      }
+    },
+
+    cancelShowCompile(state) {
+      if (state.isShowCompile) {
+        state.isShowCompile = false;
+      }
+      if (state.removeSwitch === '完成') {
+        state.removeSwitch = '编辑';
+      }
+    },
+    //isShowNumberPad
+    isShowNumberPad(state) {
+      if (state.isShowNumberPad === false) {
+        state.isShowNumberPad = true;
+      }
+    },
+
+    cancelShowNumberPad(state) {
+      if (state.isShowNumberPad === true) {
+        state.isShowNumberPad = false;
+      }
+    },
+
+    cancelShowInput(state) {
+      if (state.isShowInput) {
+        state.isShowInput = false;
+      }
+    },
+
+    //isShowInput
+    showInput(state) {
+      if (state.isShowInput === false) {
+        state.isShowInput = true;
+      } else {
+        state.isShowInput = false;
+      }
+    },
+
     //recordStore
     fetchRecords(state) {
       state.recordList = JSON.parse(window.localStorage.getItem('recordList')
@@ -76,6 +179,7 @@ const store = new Vuex.Store({
       window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
     }
   }
+
 });
 
 export default store;

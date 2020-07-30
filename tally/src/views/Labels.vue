@@ -1,16 +1,16 @@
 <template>
   <div class="layout-wrapper">
     <Layout>
-      <div class="tags">
-        <router-link class="tag" v-for="tag in tags" :key="tag.id"
-                     :to="`/labels/edit/${tag.id}`">
-          <span>{{tag.name}}</span>
-          <Icon name="right"/>
-        </router-link>
-      </div>
-      <div class="createTag-wrapper">
-        <Button class="createTag" @click="createTag">新建标签</Button>
-      </div>
+            <div class="tags">
+              <router-link class="tag" v-for="tag in tags" :key="tag.id"
+                           :to="`/labels/edit/${tag.id}`">
+                <span>{{tag.name}}</span>
+                <Icon name="right"/>
+              </router-link>
+            </div>
+            <div class="createTag-wrapper">
+              <Button class="createTag" @click="createTag">新建标签</Button>
+            </div>
     </Layout>
   </div>
 </template>
@@ -19,10 +19,14 @@
   import {Component} from 'vue-property-decorator';
   import TagHelper from '@/mixins/TagHelper';
   import {mixins} from 'vue-class-component';
+  import ChargeUp from '@/views/ChargeUp.vue';
 
   const tagHelper: any = require('@/mixins/TagHelper');
 
-  @Component({mixins: [tagHelper]})
+  @Component({
+    components: {ChargeUp},
+    mixins: [tagHelper]
+  })
   export default class Labels extends mixins(TagHelper) {
     get tags() {
       return this.$store.state.tagList;
