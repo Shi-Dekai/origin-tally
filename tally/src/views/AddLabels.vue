@@ -18,8 +18,7 @@
         </li>
 
         <li v-for="item in labels" :key="item" class="labels"
-            @click="selected(item)"
-        >
+            @click="selected(item)">
           <div class="iconContainer" :class="{selectClass: select === item}">
             <Icon :name=item class="icon"></Icon>
           </div>

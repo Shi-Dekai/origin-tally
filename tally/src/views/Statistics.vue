@@ -1,14 +1,17 @@
 <template>
   <Layout>
-    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+    <Tabs :data-source="recordTypeList" :value.sync="typeSymbol"/>
     <ol>
-      <li v-for="(group,index) in groupedList" :key="index">
-        <h3 class="title">{{beautify(group.title)}} <span>{{group.total}}</span></h3>
+      <li v-for="(group, index) in groupedList" :key="index">
+        <h3 class="title">{{beautify(group.title)}} <span>{{'总计: '+group.total}}</span></h3>
         <ol>
           <li v-for="item in group.items" :key="item.id" class="record">
-            <span>{{tagString(item.tags)}}</span>
-            <span class="notes">{{item.notes}}</span>
-            <span>￥{{item.amount}}</span>
+            <div class="iconContainer"><Icon :name="item.tag" class="icon"/> </div>
+            <div class="notesAndSum">
+              <span class="notes">{{name(item.name,item.notes)}}</span>
+              <span class="sum">{{item.amount}}</span>
+            </div>
+
           </li>
         </ol>
       </li>
@@ -23,14 +26,15 @@
   import recordTypeList from '@/constant/recordTypeList';
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
+  import Detail from '@/components/detail.vue';
 
   @Component({
-    components: {Tabs}
+    components: {Detail, Tabs}
   })
 
   export default class Statistics extends Vue {
-    tagString(tags: Tag[]) {
-      return tags.length === 0 ? '无' : tags.map(t=>t.name).join(',');
+    name(name:string,notes:string){
+      return notes ? notes : name
     }
 
     beautify(string: string) {
@@ -56,7 +60,9 @@
     get groupedList() {
       const {recordList} = this;
 
-      const newList = clone(recordList).filter(r => r.type === this.type).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+      const newList = clone(recordList).filter(r => r.type === this.type)
+        .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+
       if (newList.length === 0) {return [];}
       type Result = { title: string, total?: number, items: RecordItem[] }[]
       const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
@@ -80,16 +86,18 @@
       this.$store.commit('fetchRecords');
     }
 
-    type = '-';
+    get type() {
+      return this.typeSymbol === '-' ? '支出' : '收入';
+    }
+
+    typeSymbol = '-';
     recordTypeList = recordTypeList;
   };
 </script>
 
 <style lang="scss" scoped>
-  .notes {
-    margin-right: auto;
-    margin-left: 16px;
-    color: #999;
+  ::v-deep .content{
+    background: #ffffff;
   }
 
   %item {
@@ -102,26 +110,55 @@
 
   .title {
     @extend %item;
+    color: #999;
+    font-size: 13px;
+    padding-left: 22px;
+    border-bottom: 1px solid #E1E1E1;
   }
 
   .record {
-    background: white;
-    @extend %item
-  }
-
-  ::v-deep .type-tabs-item {
-    background: white;
-
-    &.selected {
-      background: #c4c4c4;
-
-      &::after {
-        display: none;
+    @extend %item;
+    display: flex;
+    align-items: center;
+    height: 62px;
+    padding-right: 0;
+    .iconContainer{
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      background: #f5f5f5;
+    }
+    .notesAndSum{
+      flex-grow: 1;
+      border-top: 1px solid #EBEBEB;
+      margin-left: 15px;
+      position: relative;
+      .notes {
+        margin-right: auto;
+        height: 64px;
+        line-height: 64px;
+      }
+      .sum{
+        position: absolute;
+        right: 0;
+        height: 100%;
+        line-height: 64px;
+        padding-right: 16px;
       }
     }
   }
 
   ::v-deep .interval-tabs-item {
     height: 48px;
+  }
+  ::v-deep .cancel{
+    display: none;
+  }
+  ::v-deep .compile{
+    display: none;
   }
 </style>

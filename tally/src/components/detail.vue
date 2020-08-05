@@ -1,14 +1,23 @@
 <template>
   <div class="tabsContainer">
     <ul class="tabs" :class="{[classPrefix+'-tabs']:classPrefix}">
-      <li v-for="item in dataSource" :key="item.value" class="tabs-item"
-          :class="liClass(item)"
-          @click="select(item)"
-      >{{item.text}}
+      <li class="tabs-item" :class="liClass(item)">
+        支出
       </li>
+      <li class="tabs-item" :class="liClass(item)">
+        收入
+      </li>
+
+<!--      <li v-for="item in dataSource" :key="item.value" class="tabs-item"-->
+<!--          :class="liClass(item)"-->
+<!--          @click="select(item)"-->
+<!--      >{{item.text}}-->
+<!--      </li>-->
     </ul>
-    <span class="cancel" @click="cancel">取消</span>
-    <span class="compile" @click="compile">{{$store.state.removeSwitch}}</span>
+
+
+<!--    <span class="cancel" @click="cancel">取消</span>-->
+<!--    <span class="compile" @click="compile">{{$store.state.removeSwitch}}</span>-->
   </div>
 
 </template>
@@ -57,6 +66,7 @@
 
 <style lang="scss" scoped>
   .tabsContainer {
+    border: 1px solid red;
     background: #F9DC61;
     display: flex;
     justify-content: center;

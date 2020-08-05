@@ -4,7 +4,8 @@
       <div class="notes">
         <FormItem field-name="备注:"
                   placeholder="点击写备注"
-                  :value.sync="record.notes">
+                  :value.sync="notes"
+                  :select="select">
         </FormItem>
       </div>
       {{output}}
@@ -22,8 +23,9 @@
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
       <button @click="ok" class="ok">OK</button>
-      <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
+      <button @click="inputContent" class="zero">0</button>
+      <button @click="ShowBoard">今天</button>
     </div>
   </div>
 </template>
@@ -38,11 +40,15 @@
   })
   export default class NumberPad extends Vue {
     @Prop(Number) readonly value!: number;
-    output: string = '0';
+    @Prop(String) select!: string;
 
-    record: RecordItem = {
-      tags: [], notes: '', type: '-', amount: 0
-    };
+    isShowBoard: string = 'show';
+    output: string = '0';
+    notes: string = '';
+
+    ShowBoard() {
+      this.$emit('update:ShowBoard', this.isShowBoard);
+    }
 
     inputContent(event: MouseEvent) {
       const Button = (event.target as HTMLButtonElement);
@@ -73,9 +79,20 @@
     }
 
     ok() {
-      this.$emit('update:value', parseFloat(this.output));
-      this.$emit('submit', parseFloat(this.output));
-      this.output = '0';
+      if (!(this.output === '0')) {
+        this.$emit('update:notes', {notes: this.notes, amount: parseFloat(this.output)});
+        this.$emit('submit', parseFloat(this.output));
+        this.output = '0';
+        this.notes = '';
+        this.$store.commit('cancelShowNumberPad');
+        this.$store.commit('cancelShowInput');
+        if (!(this.$route.path === '/statistics')) {
+          this.$router.push('/statistics');
+        }
+        this.$emit('update:select', '');
+      } else {
+        alert('请输入记账金额！');
+      }
     }
   }
 </script>
@@ -105,7 +122,7 @@
       line-height: 27px;
       position: relative;
 
-      >.notes{
+      > .notes {
         position: absolute;
         top: 0;
         left: 0;
@@ -128,9 +145,9 @@
           height: 57*2px;
         }
 
-        &.zero {
-          width: 25*2%;
-        }
+        /*<!--&.zero {-->*/
+        /*<!--  width: 25*2%;-->*/
+        /*<!--}-->*/
       }
     }
   }

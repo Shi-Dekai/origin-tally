@@ -4,20 +4,18 @@
       <Icon name="statistics"/>
       明细
     </router-link>
-    <router-link to="/money" class="item" active-class="selected">
-      <Icon name="money"/>
-      记账
-    </router-link>
+    <Add/>
     <router-link to="/labels" class="item" active-class="selected">
       <Icon name="label"/>
       标签
     </router-link>
-    <Add />
+
   </nav>
 </template>
 
 <script lang="ts">
   import Add from '@/components/Add.vue';
+
   export default {
     name: 'Nve',
     components: {Add}
@@ -32,6 +30,7 @@
     display: flex;
     flex-direction: row;
     font-size: 12px;
+    justify-content: space-around;
 
     > .item {
       padding: 2px 0;

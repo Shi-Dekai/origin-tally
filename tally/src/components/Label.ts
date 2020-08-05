@@ -13,7 +13,6 @@ export default [
   {type: '支出', tag: 'yule', name: '娱乐'},
   {type: '支出', tag: 'tongxun', name: '通讯'},
   {type: '支出', tag: 'zhufang', name: '住房'},
-  {type: '支出', tag: 'gongjiao', name: '交通'},
   {type: '支出', tag: 'shejiao', name: '社交'},
   {type: '支出', tag: 'yiliao', name: '医疗'},
   {type: '支出', tag: 'shucai', name: '蔬菜'},
