@@ -25,7 +25,7 @@
       <button @click="ok" class="ok">OK</button>
       <button @click="inputContent">.</button>
       <button @click="inputContent" class="zero">0</button>
-      <button @click="ShowBoard">今天</button>
+      <button @click="ShowBoard">{{createdAtText}}</button>
     </div>
   </div>
 </template>
@@ -34,6 +34,7 @@
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
   import FormItem from '@/components/Money/FormItem.vue';
+  import dayjs from 'dayjs';
 
   @Component({
     components: {FormItem}
@@ -41,10 +42,20 @@
   export default class NumberPad extends Vue {
     @Prop(Number) readonly value!: number;
     @Prop(String) select!: string;
+    @Prop(String) createAt?: string;
 
     isShowBoard: string = 'show';
     output: string = '0';
     notes: string = '';
+
+    get createdAtText(){
+      let inputValue = new Date()
+      if (this.createAt === dayjs(inputValue).format('YYYY-MM-DD')){
+        return '今天'
+      }else {
+        return this.createAt
+      }
+    }
 
     ShowBoard() {
       this.$emit('update:ShowBoard', this.isShowBoard);
@@ -86,8 +97,8 @@
         this.notes = '';
         this.$store.commit('cancelShowNumberPad');
         this.$store.commit('cancelShowInput');
-        if (!(this.$route.path === '/statistics')) {
-          this.$router.push('/statistics');
+        if (!(this.$route.path === '/detail')) {
+          this.$router.push('/detail');
         }
         this.$emit('update:select', '');
       } else {
