@@ -2,7 +2,7 @@
   <Layout>
     <div>
       <Tabs :data-source="recordTypeList"/>
-      <Chart :options="x"/>
+      <Chart class="chart" :options="x"/>
     </div>
   </Layout>
 </template>
@@ -23,29 +23,53 @@
 
     get x() {
       return {
+        grid: {
+          left: 10,
+          right: 10,
+        },
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-            'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
-            'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'
-          ]
+          data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+            '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+            '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
+          ],
+          axisLabel: {
+            interval: 3,
+            lineStyle: {width: 1},
+            axisTick: {show: false}
+          },
+          axisTick: {show: false},
+          axisLine:{lineStyle: {color:'#D1D1D1'}}
+
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          show: false
         },
 
         series: [{
-          data: [820, 932, 901, 934, 1290, 1330, 1320,
-            820, 932, 901, 934, 1290, 1330, 1320,
-            820, 932, 901, 934, 1290, 1330, 1320],
+          symbol:'circle',
+          symbolSize: 10,
+          itemStyle: {
+            borderWidth: 1,
+            color: '#666',
+            shadowColor:'yellow'
+          },
+          data: [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 932,
+            820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 1330,
+            820, 932, 901, 934, 1290, 1330, 1320, 214, 421, 533
+          ],
           type: 'line'
         }],
-        tooltip: {show: true},
+        tooltip: {
+          show: true,
+          formatter: '{c}',
+          position:'top'
+        },
       };
     }
   }
 </script>
 
 <style lang="scss" scoped>
-
 </style>
