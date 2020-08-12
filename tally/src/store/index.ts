@@ -24,7 +24,6 @@ const store = new Vuex.Store({
   },
 
   mutations: {
-
     accomplish(state, {type, input, select}) {
       store.commit('joinLabelList', {type, input, select});
       store.commit('setLabelList');
@@ -70,7 +69,7 @@ const store = new Vuex.Store({
     },
 
     isShowCompile(state) {
-      state.isShowCompile = state.isShowCompile === false;
+      state.isShowCompile = !state.isShowCompile;
     },
 
     cancelShowCompile(state) {

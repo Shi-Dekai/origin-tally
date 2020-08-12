@@ -1,12 +1,12 @@
 <template>
   <nav>
-    <router-link to="/Detail" class="item" active-class="selected">
+    <router-link to="/detail" class="item" active-class="selected">
       <Icon name="label"/>
       明细
     </router-link>
     <Add/>
     <router-link to="/statistics" class="item" active-class="selected">
-      <Icon name="statistics"/>
+      <Icon name="data"/>
       统计
     </router-link>
 
@@ -33,12 +33,7 @@
     justify-content: space-around;
 
     > .item {
-      padding: 2px 0;
-      width: 33.33333%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+      @extend %navItem;
     }
 
     .icon {
@@ -47,7 +42,9 @@
     }
 
     > .item.selected {
-      color: $color-highlight;
+      >svg{
+        color: #F9DC56;
+      }
     }
   }
 </style>

@@ -48,8 +48,10 @@
     }
 
     select(item: DataSourceItem) {
+      this.$emit('update:cancel');
       this.$emit('update:value', item.value);
       this.$store.commit('setType', item.value);
+      this.$store.commit('cancelShowNumberPad');
     }
 
   }

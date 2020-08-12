@@ -1,23 +1,25 @@
 <template>
   <Layout>
-    <Tabs :data-source="recordTypeList" :value.sync="typeSymbol"/>
-    <ol>
-      <li v-for="(group, index) in groupedList" :key="index">
-        <h3 class="title">{{beautify(group.title)}} <span>{{'总计: '+group.total}}</span></h3>
-        <ol>
-          <li v-for="item in group.items" :key="item.id" class="record">
-            <div class="iconContainer">
-              <Icon :name="item.tag" class="icon"/>
-            </div>
-            <div class="notesAndSum">
-              <span class="notes">{{name(item.name,item.notes)}}</span>
-              <span class="sum">{{item.amount}}</span>
-            </div>
-
-          </li>
-        </ol>
-      </li>
-    </ol>
+    <div>
+      <Tabs :data-source="recordTypeList" :value.sync="typeSymbol"/>
+      <EmptyContent v-if="groupedList.length ===0"/>
+      <ol>
+        <li v-for="(group, index) in groupedList" :key="index">
+          <h3 class="title">{{beautify(group.title)}} <span>{{'总计: '+group.total}}</span></h3>
+          <ol>
+            <li v-for="item in group.items" :key="item.id" class="record">
+              <div class="iconContainer">
+                <Icon :name="item.tag" class="icon"/>
+              </div>
+              <div class="notesAndSum">
+                <span class="notes">{{name(item.name,item.notes)}}</span>
+                <span class="sum">{{item.amount}}</span>
+              </div>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </div>
   </Layout>
 </template>
 
@@ -28,14 +30,18 @@
   import recordTypeList from '@/constant/recordTypeList';
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
+  import EmptyContent from '@/components/EmptyContent.vue';
 
   @Component({
-    components: {Tabs}
+    components: {EmptyContent, Tabs}
   })
 
   export default class Detail extends Vue {
     name(name: string, notes: string) {
       return notes ? notes : name;
+    }
+    mounted(){
+      console.log('1111');
     }
 
     beautify(string: string) {

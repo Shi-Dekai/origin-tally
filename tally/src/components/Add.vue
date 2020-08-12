@@ -1,6 +1,7 @@
 <template>
   <div class="add" @click="add">
-    +
+    <Icon name="tally"/>
+    记账
   </div>
 </template>
 
@@ -17,10 +18,12 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/assets/style/helper.scss";
   .add {
-    font-size: 32px;
-    width: 40px;
-    display: flex;
-    justify-content: center;
+    @extend %navItem;
+    >svg{
+      width: 32px;
+      height: 32px;
+    }
   }
 </style>

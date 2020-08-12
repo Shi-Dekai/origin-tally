@@ -33,7 +33,7 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
-  import FormItem from '@/components/Money/FormItem.vue';
+  import FormItem from '@/components/FormItem.vue';
   import dayjs from 'dayjs';
 
   @Component({

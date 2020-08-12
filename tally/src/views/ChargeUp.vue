@@ -3,7 +3,7 @@
     <Tabs :data-source="recordTypeList" :value.sync="type" @update:cancel="select = ''"/>
 
     <ol class="container" :class="{change:!(select === '')}">
-      <li v-for="(item,index) in xxx" :key="index" class="labels"
+      <li v-for="(item,index) in newType" :key="index" class="labels"
           @click="ShowNumberPad(item)">
         <Icon name="remove" class="remove" :class="{showRemove:$store.state.isShowCompile}"
               @click.stop="remove(item.name)"/>
@@ -18,7 +18,7 @@
           <Icon name="add" class="settingIcon"/>
         </div>
         <div class="labelsType">添加类别</div>
-      </router-link>
+      </router-link>m
     </ol>
     <NumberPad :select.sync="select"
                @update:notes="OnUpdateNotes"
@@ -47,7 +47,7 @@
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constant/recordTypeList';
-  import NumberPad from '@/components/Money/NumberPad.vue';
+  import NumberPad from '@/components/NumberPad.vue';
   import dayjs from 'dayjs';
 
 
@@ -67,6 +67,11 @@
       amount: 0,
       createdAt: dayjs(new Date().toISOString()).format('YYYY-MM-DD')
     };
+mounted(){
+
+  console.log('2');
+}
+
 
     OnChange(event: MouseEvent) {
       this.recordList.createdAt = (event.currentTarget as HTMLInputElement).value;
@@ -89,7 +94,7 @@
       return this.$store.state.labelList;
     }
 
-    get xxx() {
+    get newType() {
       const typeMap = {'-': '支出', '+': '收入'};
       return this.LabelList.filter((i: Label) => i.type === typeMap[this.type]);
     }
@@ -111,6 +116,9 @@
     addLabels() {
       this.$store.commit('showInput');
       this.$store.commit('cancelShowNumberPad');
+      if(this.select !== ''){
+        this.select = ''
+      }
     }
 
     ShowNumberPad(item: Label) {

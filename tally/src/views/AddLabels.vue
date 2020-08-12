@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="menuBar">
-      <span class="menu return" @click="goBack"><返回</span>
+      <span class="menu return" @click="goBack"><Icon name="return"/>返回</span>
       <span class="menu add">添加{{type}}类别</span>
       <span class="menu accomplish" @click="accomplish(type,input,select)">完成</span>
     </div>
@@ -41,9 +41,11 @@
     labels: string[] = AddLabel;
 
     goBack() {
+      this.$emit('update:cancel');
       this.$router.back();
       this.$store.commit('showInput');
       this.$store.commit('cancelShowCompile');
+      this.$store.commit('cancelShowNumberPad');
     }
 
     selected(item: string) {
@@ -183,18 +185,19 @@
     background: #F9DB61;
 
     > .menu {
+      font-size: 13px;
     }
 
     > .return {
-      padding-left: 8px;
+      padding-left: 20px;
     }
 
     > .add {
-
+      font-size: 14px;
     }
 
     > .accomplish {
-      padding-right: 8px;
+      padding-right: 20px;
     }
   }
 </style>
