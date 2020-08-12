@@ -11,6 +11,7 @@
   #app{
     position: relative;
     overflow: hidden;
+    height: 100vh;
   }
 
   body {

@@ -1,43 +1,46 @@
 <template>
-  <div class="type" :class="{show:$store.state.isShowInput}">
-    <Tabs :data-source="recordTypeList" :value.sync="type" @update:cancel="select = ''"/>
+  <div>
+    <div class="type" :class="{show:$store.state.isShowInput}">
+      <Tabs :data-source="recordTypeList" :value.sync="type" @update:cancel="select = ''"/>
 
-    <ol class="container" :class="{change:!(select === '')}">
-      <li v-for="(item,index) in newType" :key="index" class="labels"
-          @click="ShowNumberPad(item)">
-        <Icon name="remove" class="remove" :class="{showRemove:$store.state.isShowCompile}"
-              @click.stop="remove(item.name)"/>
-        <div class="iconContainer" :class="{selectLabel: select === item.tag}">
-          <Icon :name=item.tag class="icon"></Icon>
-        </div>
-        <div class="labelsType">{{item.name}}</div>
-      </li>
+      <ol class="container" :class="{change:!(select === '')}">
+        <li v-for="(item,index) in newType" :key="index" class="labels"
+            @click="ShowNumberPad(item)">
+          <Icon name="remove" class="remove" :class="{showRemove:$store.state.isShowCompile}"
+                @click.stop="remove(item.name)"/>
+          <div class="iconContainer" :class="{selectLabel: select === item.tag}">
+            <Icon :name=item.tag class="icon"></Icon>
+          </div>
+          <div class="labelsType">{{item.name}}</div>
+        </li>
 
-      <router-link to="AddLabels" class="labels" :type="type">
-        <div class="iconContainer" @click="addLabels">
-          <Icon name="add" class="settingIcon"/>
-        </div>
-        <div class="labelsType">添加类别</div>
-      </router-link>m
-    </ol>
-    <NumberPad :select.sync="select"
-               @update:notes="OnUpdateNotes"
-               :ShowBoard.sync="isShowBoard"
-               @update:ShowBoard="OnUpdateBoard"
-               :create-at="recordList.createdAt"
-    />
-    <div class="boardContainer" :class="{show:isShowBoard === 'show'}">
-      <div class="board">
-        <label>
-          <span>请选择日期</span>
-          <input :type="'date' ||'text'"
-                 :value="inputValue(recordList.createdAt)"
-                 @change="OnChange">
-        </label>
-        <div class="button">
-          <button @click="confirm">确定</button>
+        <router-link to="AddLabels" class="labels" :type="type">
+          <div class="iconContainer" @click="addLabels">
+            <Icon name="add" class="settingIcon"/>
+          </div>
+          <div class="labelsType">添加类别</div>
+        </router-link>
+      </ol>
+      <div class="boardContainer" :class="{show:isShowBoard === 'show'}">
+        <div class="board">
+          <label>
+            <span>请选择日期</span>
+            <input :type="'date' ||'text'"
+                   :value="inputValue(recordList.createdAt)"
+                   @change="OnChange">
+          </label>
+          <div class="button">
+            <button @click="confirm">确定</button>
+          </div>
         </div>
       </div>
+      <NumberPad :select.sync="select"
+                 @update:notes="OnUpdateNotes"
+                 :ShowBoard.sync="isShowBoard"
+                 @update:ShowBoard="OnUpdateBoard"
+                 :create-at="recordList.createdAt"
+                 :type="type"
+      />
     </div>
   </div>
 </template>
@@ -67,11 +70,6 @@
       amount: 0,
       createdAt: dayjs(new Date().toISOString()).format('YYYY-MM-DD')
     };
-mounted(){
-
-  console.log('2');
-}
-
 
     OnChange(event: MouseEvent) {
       this.recordList.createdAt = (event.currentTarget as HTMLInputElement).value;
@@ -116,8 +114,8 @@ mounted(){
     addLabels() {
       this.$store.commit('showInput');
       this.$store.commit('cancelShowNumberPad');
-      if(this.select !== ''){
-        this.select = ''
+      if (this.select !== '') {
+        this.select = '';
       }
     }
 
@@ -135,10 +133,11 @@ mounted(){
   .boardContainer {
     display: none;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     position: fixed;
     top: 0;
     background: rgba(0, 0, 0, .2);
+    z-index: 2;
 
     &.show {
       display: block;
@@ -205,6 +204,7 @@ mounted(){
     width: 100%;
     padding: 20px;
     flex-wrap: wrap;
+    overflow: auto;
 
     &.change {
       padding: 20px 20px 280px 20px;

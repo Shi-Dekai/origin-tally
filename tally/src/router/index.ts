@@ -10,11 +10,12 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    redirect: '/statistics'
+    redirect: '/detail'
   },
   {
     path: '/detail',
-    component: Detail
+    component: Detail,
+    props: (route) => ({ query: route.query.tab })
   },
   {
     path: '/statistics',

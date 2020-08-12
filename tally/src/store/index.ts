@@ -20,10 +20,17 @@ const store = new Vuex.Store({
   getters: {
     typeText: state => {
       return state.type === '-' ? '支出' : '收入';
-    }
+    },
+
   },
 
   mutations: {
+    xxx(state,type){
+      state.type = type
+      console.log('1');
+      console.log(state.type);
+    },
+
     accomplish(state, {type, input, select}) {
       store.commit('joinLabelList', {type, input, select});
       store.commit('setLabelList');
@@ -112,7 +119,7 @@ const store = new Vuex.Store({
     createRecord(state, record: RecordItem) {
       const record2: RecordItem = clone(record);
       record2.createdAt = record2.createdAt || new Date().toISOString();
-      state.recordList?.push(record2);  //可选链语法 stage-3
+      state.recordList?.unshift(record2);  //可选链语法 stage-3
       store.commit('saveRecords');
     },
     saveRecords(state) {

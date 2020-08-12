@@ -43,6 +43,7 @@
     @Prop(Number) readonly value!: number;
     @Prop(String) select!: string;
     @Prop(String) createAt?: string;
+    @Prop(String) type!:string;
 
     isShowBoard: string = 'show';
     output: string = '0';
@@ -87,6 +88,7 @@
 
     clear() {
       this.output = '0';
+      console.log(this.type);
     }
 
     ok() {
@@ -98,8 +100,10 @@
         this.$store.commit('cancelShowNumberPad');
         this.$store.commit('cancelShowInput');
         if (!(this.$route.path === '/detail')) {
-          this.$router.push('/detail');
+          this.$store.commit('xxx',this.type)
+          this.$router.push(`/detail?tab=${this.$store.state.type}`);
         }
+        console.log();
         this.$emit('update:select', '');
       } else {
         alert('请输入记账金额！');
@@ -121,6 +125,7 @@
 
   .numberPad {
     display: none;
+    z-index: 1;
 
     > .output {
       @extend %clearFix;

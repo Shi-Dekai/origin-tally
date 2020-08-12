@@ -5,7 +5,6 @@
       <div class="StatisticalHead">
         <div class="grossAmount">
           <span class="amountTo">本月总{{type}}：{{grossAmount()}}</span>
-          <br>
           <span class="span">平均值：{{mean()}}</span>
         </div>
       </div>
@@ -171,12 +170,13 @@
     align-items: center;
     .grossAmount {
       display: flex;
+      flex-wrap: nowrap;
       position: relative;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       top: 15px;
-      width: 35%;
+      min-width: 35%;
       height: 50px;
       background: #f5f5f5;
       border-radius: 4px;

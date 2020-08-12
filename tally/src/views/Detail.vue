@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div>
-      <Tabs :data-source="recordTypeList" :value.sync="typeSymbol"/>
+      <Tabs :data-source="recordTypeList" :value.sync="$store.state.type"/>
       <EmptyContent v-if="groupedList.length ===0"/>
       <ol>
         <li v-for="(group, index) in groupedList" :key="index">
@@ -40,9 +40,6 @@
     name(name: string, notes: string) {
       return notes ? notes : name;
     }
-    mounted(){
-      console.log('1111');
-    }
 
     beautify(string: string) {
       const day = dayjs(string);
@@ -66,8 +63,7 @@
 
     get groupedList() {
       const {recordList} = this;
-
-      const newList = clone(recordList).filter(r => r.type === this.type)
+      const newList = clone(recordList).filter(r => r.type === this.$store.getters.typeText)
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
 
       if (newList.length === 0) {return [];}
@@ -93,11 +89,6 @@
       this.$store.commit('fetchRecords');
     }
 
-    get type() {
-      return this.typeSymbol === '-' ? '支出' : '收入';
-    }
-
-    typeSymbol = '-';
     recordTypeList = recordTypeList;
   };
 </script>
