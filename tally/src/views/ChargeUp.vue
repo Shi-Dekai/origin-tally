@@ -8,7 +8,7 @@
             @click="ShowNumberPad(item)">
           <Icon name="remove" class="remove" :class="{showRemove:$store.state.isShowCompile}"
                 @click.stop="remove(item.name)"/>
-          <div class="iconContainer" :class="{selectLabel: select === item.tag}">
+          <div class="iconContainer" :class="{selectLabel: select === item.name}">
             <Icon :name=item.tag class="icon"></Icon>
           </div>
           <div class="labelsType">{{item.name}}</div>
@@ -58,9 +58,9 @@
     components: {NumberPad, Tabs}
   })
   export default class ChargeUp extends Vue {
-    isShowBoard: string = 'none';
+    isShowBoard = 'none';
     type: '-' | '+' = this.$store.state.type;
-    select: string = '';
+    select = '';
     recordTypeList = recordTypeList;
     recordList: RecordItem = {
       type: '支出',
@@ -121,7 +121,7 @@
 
     ShowNumberPad(item: Label) {
       this.$store.commit('isShowNumberPad');
-      this.select = item.tag;
+      this.select = item.name;
       this.recordList.name = item.name;
       this.recordList.type = item.type;
       this.recordList.tag = item.tag;

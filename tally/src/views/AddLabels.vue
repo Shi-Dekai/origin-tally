@@ -35,9 +35,9 @@
 
   @Component
   export default class AddLabels extends Vue {
-    input: string = '';
+    input = '';
     type: string = this.$store.getters.typeText;
-    select: string = 'shuiguo';
+    select = 'shuiguo';
     labels: string[] = AddLabel;
 
     goBack() {
@@ -56,7 +56,7 @@
       if (!input) {
         alert('请输入标签名！');
       } else if (this.$store.state.labelList.filter((item: Label) => item.name === input && item.type === type).length > 0) {
-        alert('!!!');
+        alert('标签名重复，请重新输入！');
       } else {
         this.$store.commit('accomplish', {type, input, select});
         this.$router.push('/statistics');
