@@ -43,14 +43,14 @@
     @Prop(Number) readonly value!: number;
     @Prop(String) select!: string;
     @Prop(String) createAt?: string;
-    @Prop(String) type!:string;
+    @Prop(String) type!: string;
 
-    isShowBoard: string = 'show';
-    output: string = '0';
-    notes: string = '';
+    isShowBoard = 'show';
+    output = '0';
+    notes = '';
 
     get createdAtText(){
-      let inputValue = new Date()
+      const inputValue = new Date()
       if (this.createAt === dayjs(inputValue).format('YYYY-MM-DD')){
         return '今天'
       }else {
@@ -160,11 +160,24 @@
           float: right;
           height: 57*2px;
         }
-
-        /*<!--&.zero {-->*/
-        /*<!--  width: 25*2%;-->*/
-        /*<!--}-->*/
       }
+    }
+  }
+  @media (min-width: 500px) {
+    .numberPad>.output{
+      font-size: 36px;
+      font-family: Consolas, monospace;
+      padding: 9px 40px;
+      text-align: right;
+      height: 45px;
+      line-height: 27px;
+      position: relative;
+      width: 483px;
+    }
+    .buttons{
+      font-size: 18px;
+      height: 13.7em;
+      width: 483px;
     }
   }
 </style>

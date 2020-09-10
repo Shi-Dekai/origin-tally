@@ -50,4 +50,12 @@
       white-space: nowrap;
     }
   }
+
+  @media (min-width: 500px) {
+    .formItem {
+      > input {
+        width: 45vw;
+      }
+    }
+  }
 </style>
