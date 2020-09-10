@@ -5,6 +5,7 @@
       <input type="text"
              :value="value"
              :placeholder="placeholder"
+             maxlength="14"
              @input="onValueChanged($event.target.value)">
 
     </label>
@@ -54,7 +55,7 @@
   @media (min-width: 500px) {
     .formItem {
       > input {
-        width: 45vw;
+        width: 20vw;
       }
     }
   }
