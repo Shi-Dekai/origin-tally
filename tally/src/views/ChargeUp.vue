@@ -34,20 +34,20 @@
           </div>
         </div>
       </div>
-      <NumberPad :select.sync="select"
-                 @update:notes="OnUpdateNotes"
-                 :ShowBoard.sync="isShowBoard"
-                 @update:ShowBoard="OnUpdateBoard"
-                 :create-at="recordList.createdAt"
-                 :type="type"
-      />
+      <!--      <NumberPad :select.sync="select"-->
+      <!--                 @update:notes="OnUpdateNotes"-->
+      <!--                                                      :ShowBoard.sync="isShowBoard"-->
+      <!--                 @update:ShowBoard="OnUpdateBoard"-->
+      <!--                 :create-at="recordList.createdAt"-->
+      <!--                 :type="type"-->
+      <!--      />-->
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Inject} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constant/recordTypeList';
   import NumberPad from '@/components/NumberPad.vue';
@@ -70,6 +70,22 @@
       amount: 0,
       createdAt: dayjs(new Date().toISOString()).format('YYYY-MM-DD')
     };
+    @Inject() eventBus!: Vue
+
+    mounted() {
+      this.eventBus.$on('update:select', (select: string) => {
+        this.select = select;
+      });
+      this.eventBus.$on('update:notes', (obj: { notes: string; amount: number }) => {
+        this.recordList.notes = obj.notes;
+        this.recordList.amount = obj.amount;
+        this.$store.commit('createRecord', this.recordList);
+      });
+      this.eventBus.$on('update:showBoard', (showBoard: string) => {
+        this.isShowBoard = showBoard;
+      });
+      this.eventBus.$emit('update:createdAt', this.recordList.createdAt)
+    }
 
     OnChange(event: MouseEvent) {
       this.recordList.createdAt = (event.currentTarget as HTMLInputElement).value;
@@ -80,9 +96,6 @@
 
     }
 
-    OnUpdateBoard(isShowBoard: string) {
-      this.isShowBoard = isShowBoard;
-    }
 
     inputValue(isoString: string) {
       return dayjs(isoString).format('YYYY-MM-DD');
@@ -97,11 +110,6 @@
       return this.LabelList.filter((i: Label) => i.type === typeMap[this.type]);
     }
 
-    OnUpdateNotes(obj: { notes: string, amount: number }) {
-      this.recordList.notes = obj.notes;
-      this.recordList.amount = obj.amount;
-      this.$store.commit('createRecord', this.recordList);
-    }
 
     created() {
       this.$store.commit('fetchLabelList');

@@ -27,8 +27,6 @@ const store = new Vuex.Store({
   mutations: {
     xxx(state,type){
       state.type = type
-      console.log('1');
-      console.log(state.type);
     },
 
     accomplish(state, {type, input, select}) {

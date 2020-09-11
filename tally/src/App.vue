@@ -2,6 +2,7 @@
   <div id="app">
     <router-view/>
     <ChargeUp/>
+    <NumberPad   />
   </div>
 </template>
 
@@ -26,13 +27,15 @@
 </style>
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Provide} from 'vue-property-decorator';
   import ChargeUp from '@/views/ChargeUp.vue';
+  import NumberPad from '@/components/NumberPad.vue';
 
   @Component({
-    components: {ChargeUp}
+    components: {NumberPad, ChargeUp}
   })
   export default class App extends Vue {
+    @Provide() eventBus = new Vue();
 
   }
 </script>

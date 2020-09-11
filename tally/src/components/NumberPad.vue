@@ -4,8 +4,7 @@
       <div class="notes">
         <FormItem field-name="备注:"
                   placeholder="点击写备注"
-                  :value.sync="notes"
-                  :select="select">
+                  :value.sync="notes">
         </FormItem>
       </div>
       {{output}}
@@ -32,7 +31,7 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Prop} from 'vue-property-decorator';
+  import {Component, Inject, Prop} from 'vue-property-decorator';
   import FormItem from '@/components/FormItem.vue';
   import dayjs from 'dayjs';
 
@@ -40,26 +39,32 @@
     components: {FormItem}
   })
   export default class NumberPad extends Vue {
-    @Prop(Number) readonly value!: number;
-    @Prop(String) select!: string;
-    @Prop(String) createAt?: string;
-    @Prop(String) type!: string;
 
-    isShowBoard = 'show';
+    @Prop(Number) readonly value!: number;
+    @Prop(String) type!: string;
+    @Inject() eventBus!: Vue;
+    createdAt = '';
     output = '0';
     notes = '';
 
-    get createdAtText(){
-      const inputValue = new Date()
-      if (this.createAt === dayjs(inputValue).format('YYYY-MM-DD')){
-        return '今天'
-      }else {
-        return this.createAt
+    created(){
+      this.eventBus.$on('update:createdAt', (createdAt: string) => {
+        this.createdAt = createdAt;
+      });
+    }
+
+    get createdAtText() {
+
+      const inputValue = new Date();
+      if (this.createdAt === dayjs(inputValue).format('YYYY-MM-DD')) {
+        return '今天';
+      } else {
+        return this.createdAt;
       }
     }
 
     ShowBoard() {
-      this.$emit('update:ShowBoard', this.isShowBoard);
+      this.eventBus.$emit('update:showBoard', 'show');
     }
 
     inputContent(event: MouseEvent) {
@@ -88,23 +93,21 @@
 
     clear() {
       this.output = '0';
-      console.log(this.type);
     }
 
     ok() {
       if (!(this.output === '0')) {
-        this.$emit('update:notes', {notes: this.notes, amount: parseFloat(this.output)});
+        this.eventBus.$emit('update:notes', {notes: this.notes, amount: parseFloat(this.output)});
         this.$emit('submit', parseFloat(this.output));
         this.output = '0';
         this.notes = '';
         this.$store.commit('cancelShowNumberPad');
         this.$store.commit('cancelShowInput');
         if (!(this.$route.path === '/detail')) {
-          this.$store.commit('xxx',this.type)
+          this.$store.commit('xxx', this.type);
           this.$router.push(`/detail?tab=${this.$store.state.type}`);
         }
-        console.log();
-        this.$emit('update:select', '');
+        this.eventBus.$emit('update:select', '');
       } else {
         alert('请输入记账金额！');
       }
@@ -117,7 +120,8 @@
 
   .numberPad.show {
     display: block;
-    position: fixed;
+    position: absolute;
+    height: 273px;
     bottom: 0;
     width: 100vw;
     background: rgb(243, 243, 243);
@@ -163,8 +167,9 @@
       }
     }
   }
+
   @media (min-width: 500px) {
-    .numberPad>.output{
+    .numberPad > .output {
       font-size: 36px;
       font-family: Consolas, monospace;
       padding: 9px 40px;
@@ -174,7 +179,7 @@
       position: relative;
       width: 483px;
     }
-    .buttons{
+    .buttons {
       font-size: 18px;
       height: 13.7em;
       width: 483px;
