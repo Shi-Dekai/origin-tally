@@ -89,6 +89,7 @@
 
     OnChange(event: MouseEvent) {
       this.recordList.createdAt = (event.currentTarget as HTMLInputElement).value;
+      this.eventBus.$emit('update:createdAt', this.recordList.createdAt)
     }
 
     confirm() {

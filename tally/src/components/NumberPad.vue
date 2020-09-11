@@ -47,14 +47,13 @@
     output = '0';
     notes = '';
 
-    created(){
+    created() {
       this.eventBus.$on('update:createdAt', (createdAt: string) => {
         this.createdAt = createdAt;
       });
     }
 
     get createdAtText() {
-
       const inputValue = new Date();
       if (this.createdAt === dayjs(inputValue).format('YYYY-MM-DD')) {
         return '今天';
