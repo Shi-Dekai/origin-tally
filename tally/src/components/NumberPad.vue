@@ -50,6 +50,7 @@
     created() {
       this.eventBus.$on('update:createdAt', (createdAt: string) => {
         this.createdAt = createdAt;
+        console.log(this.createdAt);
       });
     }
 
@@ -63,7 +64,8 @@
     }
 
     ShowBoard() {
-      this.eventBus.$emit('update:showBoard', 'show');
+      console.log('1');
+      this.eventBus.$emit('update:showBoard', true);
     }
 
     inputContent(event: MouseEvent) {

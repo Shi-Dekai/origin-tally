@@ -21,26 +21,19 @@
           <div class="labelsType">添加类别</div>
         </router-link>
       </ol>
-      <div class="boardContainer" :class="{show:isShowBoard === 'show'}">
-        <div class="board">
-          <label>
-            <span>请选择日期</span>
-            <input :type="'date' ||'text'"
-                   :value="inputValue(recordList.createdAt)"
-                   @change="OnChange">
-          </label>
-          <div class="button">
-            <button @click="confirm">确定</button>
-          </div>
-        </div>
-      </div>
-      <!--      <NumberPad :select.sync="select"-->
-      <!--                 @update:notes="OnUpdateNotes"-->
-      <!--                                                      :ShowBoard.sync="isShowBoard"-->
-      <!--                 @update:ShowBoard="OnUpdateBoard"-->
-      <!--                 :create-at="recordList.createdAt"-->
-      <!--                 :type="type"-->
-      <!--      />-->
+<!--      <div class="boardContainer" :class="{show:isShowBoard}">-->
+<!--        <div class="board">-->
+<!--          <label>-->
+<!--            <span>请选择日期</span>-->
+<!--            <input :type="'date' ||'text'"-->
+<!--                   :value="inputValue(recordList.createdAt)"-->
+<!--                   @change="OnChange">-->
+<!--          </label>-->
+<!--          <div class="button">-->
+<!--            <button @click="confirm">确定</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -58,7 +51,7 @@
     components: {NumberPad, Tabs}
   })
   export default class ChargeUp extends Vue {
-    isShowBoard = 'none';
+    isShowBoard = false;
     type: '-' | '+' = this.$store.state.type;
     select = '';
     recordTypeList = recordTypeList;
@@ -76,31 +69,35 @@
       this.eventBus.$on('update:select', (select: string) => {
         this.select = select;
       });
+      this.eventBus.$on('update:createdAt', (createdAt: string) => {
+        this.recordList.createdAt = createdAt;
+      });
       this.eventBus.$on('update:notes', (obj: { notes: string; amount: number }) => {
         this.recordList.notes = obj.notes;
         this.recordList.amount = obj.amount;
         this.$store.commit('createRecord', this.recordList);
       });
-      this.eventBus.$on('update:showBoard', (showBoard: string) => {
+      this.eventBus.$on('update:showBoard', (showBoard: boolean) => {
         this.isShowBoard = showBoard;
+        this.$emit('update:cover', this.isShowBoard)
       });
       this.eventBus.$emit('update:createdAt', this.recordList.createdAt)
     }
 
-    OnChange(event: MouseEvent) {
-      this.recordList.createdAt = (event.currentTarget as HTMLInputElement).value;
-      this.eventBus.$emit('update:createdAt', this.recordList.createdAt)
-    }
+    // OnChange(event: MouseEvent) {
+    //   this.recordList.createdAt = (event.currentTarget as HTMLInputElement).value;
+    //   this.eventBus.$emit('update:createdAt', this.recordList.createdAt)
+    // }
 
-    confirm() {
-      this.isShowBoard = 'none';
+    // confirm() {
+    //   this.isShowBoard = false;
+    //   this.eventBus.$emit('update:showBoard', false)
+    // }
 
-    }
 
-
-    inputValue(isoString: string) {
-      return dayjs(isoString).format('YYYY-MM-DD');
-    }
+    // inputValue(isoString: string) {
+    //   return dayjs(isoString).format('YYYY-MM-DD');
+    // }
 
     get LabelList() {
       return this.$store.state.labelList;
@@ -139,74 +136,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .boardContainer {
-    display: none;
-    width: 100vw;
-    min-height: 100vh;
-    position: fixed;
-    top: 0;
-    background: rgba(0, 0, 0, .2);
-    z-index: 2;
-
-    &.show {
-      display: block;
-    }
-
-    > .board {
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      top: 35%;
-      left: 10%;
-      justify-content: center;
-      align-items: center;
-      background: #ffffff;
-      width: 300px;
-      height: 150px;
-      border-radius: 20px;
-
-      > label {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        top: 30px;
-
-        > span {
-          display: flex;
-          font-size: 14px;
-          position: relative;
-          top: -5px;
-        }
-
-        > input {
-          border: none;
-          background: #ffffff;
-        }
-
-      }
-
-      > .button {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        position: absolute;
-        bottom: 8px;
-        border-top: 2px solid #a8bdbb;
-        padding: 10px 0;
-
-        > button {
-          border: none;
-          outline: none;
-          background: #ffffff;
-          color: #42b983;
-          width: 100%;
-        }
-      }
-    }
-
-  }
 
   .container {
     display: flex;

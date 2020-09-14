@@ -1,15 +1,16 @@
 <template>
   <div id="app">
     <router-view/>
+    <Date/>
     <ChargeUp/>
-    <NumberPad   />
+    <NumberPad/>
   </div>
 </template>
 
 <style lang="scss">
   @import "~@/assets/style/reset.scss";
   @import "~@/assets/style/helper.scss";
-  #app{
+  #app {
     position: relative;
     overflow: hidden;
     height: 100vh;
@@ -30,9 +31,10 @@
   import {Component, Provide} from 'vue-property-decorator';
   import ChargeUp from '@/views/ChargeUp.vue';
   import NumberPad from '@/components/NumberPad.vue';
+  import Date from '@/components/Date.vue';
 
   @Component({
-    components: {NumberPad, ChargeUp}
+    components: {Date, NumberPad, ChargeUp}
   })
   export default class App extends Vue {
     @Provide() eventBus = new Vue();

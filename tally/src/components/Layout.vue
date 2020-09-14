@@ -22,7 +22,7 @@
   }
 
   .content {
-    overflow: auto;
+    overflow: hidden;
     flex-grow: 1;
   }
   .nav{
