@@ -161,7 +161,7 @@
 
 <style lang="scss" scoped>
   .content{
-    height: 100%;
+    height: 100vh;
     background: #ffffff;
   }
   .StatisticalHead{
