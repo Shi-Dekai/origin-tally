@@ -45,25 +45,25 @@
     }
 
     get keyValueList() {
-      let year = dayjs().year();
-      let month = dayjs().month();
+      const year = dayjs().year();
+      const month = dayjs().month();
 
       const list = this.$store.state.recordList;
       const newList = clone(list).filter((item: RecordItem) => item.type === this.type);
 
-      let list2 = newList.map((item: RecordItem) => ({
+      const list2 = newList.map((item: RecordItem) => ({
         type: item.type,
         amount: item.amount,
         createAt: item.createdAt,
         date: dayjs(item.createdAt).format('YYYY-MM-DD')
       }));
 
-      const list3 = list2.filter((item: { type: string, amount: string, createAt: string, date: string }) =>
+      const list3 = list2.filter((item: { type: string; amount: string; createAt: string; date: string }) =>
         dayjs(item.date).year() === year
         && dayjs(item.date).month() === month
       );
 
-      let dict: any = {};
+      const dict: any = {};
       for (let i = 0; i < list3.length; i++) {
         if (dict[list3[i].createAt] === undefined) {
           dict[list3[i].createAt] = list3[i].amount;
@@ -73,17 +73,17 @@
       }
 
       function mGetDate() {
-        let date = new Date();
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let d = new Date(year, month, 0);
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const d = new Date(year, month, 0);
         return d.getDate();
       }
 
-      let days: number = mGetDate();
-      let result = [];
+      const days: number = mGetDate();
+      const result = [];
       for (let i = 1; i <= days; i++) {
-        let key = year +
+        const key = year +
           '-' + ((month + 1) < 10 ? '0' + (month + 1) : (month + 1)) +
           '-' + (i < 10 ? ('0' + i) : i);
         if (dict[key]) {
